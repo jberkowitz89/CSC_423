@@ -1,0 +1,355 @@
+> pap1 <- read.table("c:/DataSets/paper1.txt", header = T)
+> print(pap1)
+   measurer     A     B
+1         1 0.111 0.083
+2         2 0.135 0.082
+3         3 0.183 0.087
+4         4 0.107 0.079
+5         5 0.104 0.080
+6         6 0.105 0.085
+7         7 0.101 0.076
+8         8 0.105 0.079
+9         9 0.107 0.089
+10       10 0.099 0.079
+11       11 0.110 0.092
+12       12 0.105 0.074
+13       13 0.104 0.083
+14       14 0.110 0.080
+15       15 0.103 0.078
+16       16 0.101 0.083
+17       17 0.105 0.077
+18       18 0.106 0.079
+19       19 0.103 0.079
+20       20 0.108 0.080
+21       21 0.106 0.076
+22       22 0.108 0.076
+> 
+> pap2 <- read.table("c:/DataSets/paper2.txt", header = T)
+> print(pap2)
+   measurer brand thickness
+1         1     A     0.111
+2         1     B     0.083
+3         2     A     0.135
+4         2     B     0.082
+5         3     A     0.183
+6         3     B     0.087
+7         4     A     0.107
+8         4     B     0.079
+9         5     A     0.104
+10        5     B     0.080
+11        6     A     0.105
+12        6     B     0.085
+13        7     A     0.101
+14        7     B     0.076
+15        8     A     0.105
+16        8     B     0.079
+17        9     A     0.107
+18        9     B     0.089
+19       10     A     0.099
+20       10     B     0.079
+21       11     A     0.110
+22       11     B     0.092
+23       12     A     0.105
+24       12     B     0.074
+25       13     A     0.104
+26       13     B     0.083
+27       14     A     0.110
+28       14     B     0.080
+29       15     A     0.103
+30       15     B     0.078
+31       16     A     0.101
+32       16     B     0.083
+33       17     A     0.105
+34       17     B     0.077
+35       18     A     0.106
+36       18     B     0.079
+37       19     A     0.103
+38       19     B     0.079
+39       20     A     0.108
+40       20     B     0.080
+41       21     A     0.106
+42       21     B     0.076
+43       22     A     0.108
+44       22     B     0.076
+> mean(pap1)
+[1] NA
+Warning message:
+In mean.default(pap1) : argument is not numeric or logical: returning NA
+> cat("Mean Paper Brand A:\n")
+Mean Paper Brand A:
+> mean(pap1$A)
+[1] 0.1102727
+> cat("Mean Paper Brand B:\n")
+Mean Paper Brand B:
+> mean(pap2$B)
+[1] NA
+Warning message:
+In mean.default(pap2$B) : argument is not numeric or logical: returning NA
+> cat("Mean Paper Brand B:\n")
+Mean Paper Brand B:
+> mean(pap1$B)
+[1] 0.08072727
+> cat("Standard Deviation Paper Brand A:\n")
+Standard Deviation Paper Brand A:
+> sd(pap1$A)
+[1] 0.01768018
+> 
+> cat("Standard Deviation Paper Brand B:\n")
+Standard Deviation Paper Brand B:
+> sd(pap1$B)
+[1] 0.004474072
+> cat("Median of Paper Brand A:\n")
+Median of Paper Brand A:
+> median(pap1$A)
+[1] 0.1055
+> cat("Median of Paper Brand B:\n")
+Median of Paper Brand B:
+> median(pap1$B)
+[1] 0.0795
+> cat("IQR of Paper Brand A:\n")
+IQR of Paper Brand A:
+> IQR(pap1$A)
+[1] 0.004
+> cat("IQR of Paper Brand B:\n")
+IQR of Paper Brand B:
+> IQR(pap1$B)
+[1] 0.00475
+> cat("5th, 10th, 25th, 75th, 90th, 95th Percentiles of Paper Brand A:\n")
+5th, 10th, 25th, 75th, 90th, 95th Percentiles of Paper Brand A:
+> quantile(pap1$A, c(0.05, 0.10, 0.25, 0.75, 0.90, 0.95))
+    5%    10%    25%    75%    90%    95% 
+0.1010 0.1012 0.1040 0.1080 0.1109 0.1338 
+> cat("5th, 10th, 25th, 75th, 90th, 95th Percentiles of Paper Brand B:\n")
+5th, 10th, 25th, 75th, 90th, 95th Percentiles of Paper Brand B:
+> quantile(pap1$B, c(0.05, 0.10, 0.25, 0.75, 0.90, 0.95))
+     5%     10%     25%     75%     90%     95% 
+0.07600 0.07600 0.07825 0.08300 0.08680 0.08890 
+> 5%     10%     25%     75%     90%     95% 
++ 0.07600 0.07600 0.07825 0.08300 0.08680 0.08890 
+Error: unexpected end of input
+> 
+
+> cat("5th, 10th, 25th, 75th, 90th, 95th Percentiles of Paper Brand B:\n")
+5th, 10th, 25th, 75th, 90th, 95th Percentiles of Paper Brand B:
+> quantile(pap1$B, c(0.05, 0.10, 0.25, 0.75, 0.90, 0.95))
+     5%     10%     25%     75%     90%     95% 
+0.07600 0.07600 0.07825 0.08300 0.08680 0.08890 
+
+
+> t.test(pap1$A)
+
+        One Sample t-test
+
+data:  pap1$A
+t = 29.255, df = 21, p-value < 2.2e-16
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ 0.1024338 0.1181117
+sample estimates:
+mean of x 
+0.1102727 
+
+> t.test(pap1$B)
+
+        One Sample t-test
+
+data:  pap1$B
+t = 84.631, df = 21, p-value < 2.2e-16
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ 0.07874358 0.08271096
+sample estimates:
+ mean of x 
+0.08072727
+
+> hist(pap2$thickness)
+> hist(pap2$thickness, breaks=seq(.05, .15, .1))
+Error in hist.default(pap2$thickness, breaks = seq(0.05, 0.15, 0.1)) : 
+  some 'x' not counted; maybe 'breaks' do not span range of 'x'
+> hist(pap2$thickness, breaks=seq(.05, .2, .1))
+Error in hist.default(pap2$thickness, breaks = seq(0.05, 0.2, 0.1)) : 
+  some 'x' not counted; maybe 'breaks' do not span range of 'x'
+> min(pap2$thickness)
+[1] 0.074
+> max(pap2$thickness)
+[1] 0.183
+> hist(pap2$thickness, breaks=seq(.05,.2,.05))
+> hist(pap2$thickness, breaks=seq(.05,.2,.01))
+> hist(pap2$thickness, breaks=seq(.05,.2,.05))
+> boxplot(pap1$A)
+> boxplot(pap1$A)
+> boxplot(pap1$B)
+> boxplot(pap1$A, pap$B, names = c("Paper A", "Paper B"))
+Error in boxplot.default(pap1$A, pap$B, names = c("Paper A", "Paper B")) : 
+  object 'pap' not found
+> boxplot(pap1$A, pap1$B, names = c("Paper A", "Paper B"))
+
+> nusers <- c(scan( ))
+1: 17.2  22.1  18.5  17.2  18.6  14.8  21.7  15.8  16.3  22.8
+11: 24.1  13.3  16.2  17.5  19.0  23.9  14.8  22.2  21.7  20.7
+21: 13.5  15.8  13.1  16.1  21.9  23.9  19.3  12.0  19.9  19.4
+31: 15.4  16.7  19.5  16.2  16.9  17.1  20.2  13.4  19.8  17.7
+41: 19.7  18.7  17.6  15.9  15.2  17.1  15.0  18.8  21.6  11.9
+51: 
+Read 50 items
+> nusers
+ [1] 17.2 22.1 18.5 17.2 18.6 14.8 21.7 15.8 16.3 22.8 24.1 13.3 16.2 17.5 19.0
+[16] 23.9 14.8 22.2 21.7 20.7 13.5 15.8 13.1 16.1 21.9 23.9 19.3 12.0 19.9 19.4
+[31] 15.4 16.7 19.5 16.2 16.9 17.1 20.2 13.4 19.8 17.7 19.7 18.7 17.6 15.9 15.2
+[46] 17.1 15.0 18.8 21.6 11.9
+> print(nusers)
+ [1] 17.2 22.1 18.5 17.2 18.6 14.8 21.7 15.8 16.3 22.8 24.1 13.3 16.2 17.5 19.0
+[16] 23.9 14.8 22.2 21.7 20.7 13.5 15.8 13.1 16.1 21.9 23.9 19.3 12.0 19.9 19.4
+[31] 15.4 16.7 19.5 16.2 16.9 17.1 20.2 13.4 19.8 17.7 19.7 18.7 17.6 15.9 15.2
+[46] 17.1 15.0 18.8 21.6 11.9
+> print(nusers)
+ [1] 17.2 22.1 18.5 17.2 18.6 14.8 21.7 15.8 16.3 22.8 24.1 13.3 16.2 17.5 19.0
+[16] 23.9 14.8 22.2 21.7 20.7 13.5 15.8 13.1 16.1 21.9 23.9 19.3 12.0 19.9 19.4
+[31] 15.4 16.7 19.5 16.2 16.9 17.1 20.2 13.4 19.8 17.7 19.7 18.7 17.6 15.9 15.2
+[46] 17.1 15.0 18.8 21.6 11.9
+
+> qqnorm(nusers)
+
+> print(qqnorm(nusers))
+$x
+ [1] -0.12566135  1.22652812  0.12566135 -0.07526986  0.17637416 -1.12639113
+ [7]  0.95416525 -0.73884685 -0.38532047  1.47579103  2.32634787 -1.47579103
+[13] -0.49585035 -0.02506891  0.33185335  1.64485363 -1.03643339  1.34075503
+[19]  1.03643339  0.80642125 -1.22652812 -0.67448975 -1.64485363 -0.55338472
+[25]  1.12639113  1.88079361  0.38532047 -1.88079361  0.67448975  0.43991317
+[31] -0.80642125 -0.33185335  0.49585035 -0.43991317 -0.27931903 -0.22754498
+[37]  0.73884685 -1.34075503  0.61281299  0.07526986  0.55338472  0.22754498
+[43]  0.02506891 -0.61281299 -0.87789630 -0.17637416 -0.95416525  0.27931903
+[49]  0.87789630 -2.32634787
+
+$y
+ [1] 17.2 22.1 18.5 17.2 18.6 14.8 21.7 15.8 16.3 22.8 24.1 13.3 16.2 17.5 19.0
+[16] 23.9 14.8 22.2 21.7 20.7 13.5 15.8 13.1 16.1 21.9 23.9 19.3 12.0 19.9 19.4
+[31] 15.4 16.7 19.5 16.2 16.9 17.1 20.2 13.4 19.8 17.7 19.7 18.7 17.6 15.9 15.2
+[46] 17.1 15.0 18.8 21.6 11.9
+
+
+> cat("Mean of nusers :\n")
+Mean of nusers :
+> mean(nusers)
+[1] 17.954
+> 
+> cat("Standard deviation of nusers: \n")
+Standard deviation of nusers: 
+> sd(nusers)
+[1] 3.157253
+
+
+> t.test(nusers, y=NULL, mu = 17.2)
+
+        One Sample t-test
+
+data:  nusers
+t = 1.6887, df = 49, p-value = 0.09764
+alternative hypothesis: true mean is not equal to 17.2
+95 percent confidence interval:
+ 17.05672 18.85128
+sample estimates:
+mean of x 
+   17.954 
+
+
+
+> pap1clean <- read.table("C:/DataSets/paper1-cleaned.txt", header = T)
+> print(pap1clean)
+   measurer     A     B
+1         1 0.111 0.083
+2         4 0.107 0.079
+3         5 0.104 0.080
+4         6 0.105 0.085
+5         7 0.101 0.076
+6         8 0.105 0.079
+7         9 0.107 0.089
+8        10 0.099 0.079
+9        12 0.105 0.074
+10       13 0.104 0.083
+11       14 0.110 0.080
+12       15 0.103 0.078
+13       16 0.101 0.083
+14       17 0.105 0.077
+15       18 0.106 0.079
+16       19 0.103 0.079
+17       20 0.108 0.080
+18       21 0.106 0.076
+19       22 0.108 0.076
+> pap2clean <- read.table("c:/DataSets/paper2-cleaned.txt", header = T)
+> print(pap2clean)
+   measurer brand thickness
+1         1     A     0.111
+2         1     B     0.083
+3         4     A     0.107
+4         4     B     0.079
+5         5     A     0.104
+6         5     B     0.080
+7         6     A     0.105
+8         6     B     0.085
+9         7     A     0.101
+10        7     B     0.076
+11        8     A     0.105
+12        8     B     0.079
+13        9     A     0.107
+14        9     B     0.089
+15       10     A     0.099
+16       10     B     0.079
+17       12     A     0.105
+18       12     B     0.074
+19       13     A     0.104
+20       13     B     0.083
+21       14     A     0.110
+22       14     B     0.080
+23       15     A     0.103
+24       15     B     0.078
+25       16     A     0.101
+26       16     B     0.083
+27       17     A     0.105
+28       17     B     0.077
+29       18     A     0.106
+30       18     B     0.079
+31       19     A     0.103
+32       19     B     0.079
+33       20     A     0.108
+34       20     B     0.080
+35       21     A     0.106
+36       21     B     0.076
+37       22     A     0.108
+38       22     B     0.076
+
+> thickAClean <- c(pap1clean$A)
+> print(thickAClean)
+ [1] 0.111 0.107 0.104 0.105 0.101 0.105 0.107 0.099 0.105 0.104 0.110 0.103
+[13] 0.101 0.105 0.106 0.103 0.108 0.106 0.108
+> thickBClean <-c(pap1clean$B)
+> print(thickBClean)
+ [1] 0.083 0.079 0.080 0.085 0.076 0.079 0.089 0.079 0.074 0.083 0.080 0.078
+[13] 0.083 0.077 0.079 0.079 0.080 0.076 0.076
+
+> qqnorm(thickAClean, main = "Normal Plot of Thickness of Paper A")
+> qqline(thickAClean)
+> qqnorm(thickBClean, main = "Normal Plot of Thickness of Paper B")
+> qqline(thickBClean)
+
+> t.test(thickAClean, thickBClean, alternative="two.sided", 
++    paired=TRUE, conf.level=0.95)
+
+        Paired t-test
+
+data:  thickAClean and thickBClean
+t = 25.547, df = 18, p-value = 1.357e-15
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ 0.0233305 0.0275116
+sample estimates:
+mean of the differences 
+             0.02542105 
+
+> qt(.975, 18)
+[1] 2.100922
+
+
+
+

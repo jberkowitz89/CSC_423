@@ -1,0 +1,125 @@
+x <- scan( )
+34
+23
+54
+65
+78
+11
+34
+65
+45
+
+print(x)
+
+t.test(x)
+bp2 <- read.table("c:/DataSets/bp2.txt", header = T)
+
+bp1 <- read.table("c:/DataSets/bp1.txt", header = T)
+
+t.test(bp1$Standing, bp1$Supine, paired = TRUE)
+
+plot(a, w, main = Ages and Weights of Young Children",
+	sub="Subtitle at bottom",
+	xlab="Age in Months",
+	ylab="Weight in Pounds",
+	xlim=c(0, 50), ylim=c(20, 40), pch=16, col="red")
+
+# SpringReg Example -- spring.R source code.
+
+# Define displacement and force data vectors.
+disp <- 0:4
+force <- c(0, 49, 101, 149, 201)
+
+# Create data frame.
+spring <- data.frame(disp=disp, force=force)
+
+# Obtain and print regression model 
+# for regression through the origin
+# pdf("springreg.pdf")
+model1 <- lm(force ~ disp + 0, data=spring)
+print(summary(model1))
+
+# Create scatterplot with regression line.
+plot(disp, force, xlab="Displacement of Spring",
+           ylab="Counterforce of Spring",
+           main="Regression through the Origin")
+
+# Add regression line.
+abline(model1, lty="dashed")
+
+# Obtain and print regression model 
+# for simple linear regression.
+model2 <- lm(force ~ disp, data=spring)
+print(summary(model2))
+
+# Create scatterplot with regression line.
+plot(disp, force, xlab="Displacement of Spring",
+           ylab="Counterforce of Spring",
+           main="Simple Linear Regression")
+
+# Add regression line.
+abline(model2, lty="dashed")
+
+dev.off( )
+
+# Bears Example -- bears.R source code
+
+# Read data from input file.
+raw <- read.fwf(file="bears85.txt", 
+	                widths=c(3, 20, 3, 1, 1, 3, 4, 3, 3, 14),
+	                header=FALSE,
+	                skip=2,
+	                col.names=c("JerseyNumber", "Name", "Pos", "HtFt", "dash",
+	                	          "HtIn", "WtLbs", "Age", "YrsInPros", "College"),
+	                strip.white=TRUE)
+
+# Convert height and weight to metric.
+height <- (raw$HtFt * 12 + raw$HtIn) * 0.0254
+weight <- raw$WtLbs * 0.45359237
+
+# Create data frame.
+bears <- data.frame(Height=height, Weight=weight, Pos=pos)
+
+# Print bears data frame.
+print(bears)
+
+# Show means and standard deviations of heights and weights
+cat("Mean of height:\n")
+print(mean(bears[ , "Height"]))
+cat("Mean of weight:\n")
+print(mean(bears[ , "Weight"]))
+cat("Standard deviation of Height:\n")
+print(sd(bears[ , "Height"]))
+cat("Standard deviation of Weight:\n")
+print(sd(bears[ , "Weight"]))
+
+# Show covariance matrix of height and weight
+cat("Covariances and correlations:")
+print(cov(bears[ , c("Height", "Weight")]))
+print(cor(bears[ , c("Height", "Weight")]))
+
+# Create scatterplot of weight vs. height
+pdf("bears.pdf")
+plot(bears$Height, bears$Weight, 
+     main="1985 Bears Dataset",
+     xlab="Heights of Players (meters)",
+     ylab="Weights of Players (kilos)")
+            
+# Create variable team, where offense=O, kicker=K, and defense=X; add it
+# to the bears data frame.
+pos <- raw$Pos
+team <- rep("", length(pos))
+team[pos == "QB" | pos == "RB" | pos == "FB" | pos == "WR" |
+     pos == "C"  | pos == "G"  | pos == "T"  | pos == "TE" ] = "O"
+team[pos == "K"  | pos == "P"] <- "K"
+team[team != "O" & team != "K"] <- "X"
+bears$Team <- team
+print(bears)
+
+plot(bears$Height, bears$Weight, pch=bears$Team,
+     main="1985 Bears Dataset; Offense=O, Kicker=K, Defense=X",
+     xlab="Heights of Players (meters)",
+     ylab="Weights of Players (kilos)")
+
+# Redirect graphics output back to windows default.
+dev.off( )

@@ -1,0 +1,100 @@
+#reading in paper 1
+pap1 <- read.table("c:/DataSets/paper1.txt", header = T)
+print(pap1)
+
+#reading in paper 2
+pap2 <- read.table("c:/DataSets/paper2.txt", header = T)
+print(pap2)
+
+cat("Mean Paper Brand A:\n")
+mean(pap1$A)
+
+cat("Mean Paper Brand B:\n")
+mean(pap1$B)
+
+cat("Standard Deviation Paper Brand A:\n")
+sd(pap1$A)
+
+cat("Standard Deviation Paper Brand B:\n")
+sd(pap1$B)
+
+cat("Median of Paper Brand A:\n")
+median(pap1$A)
+cat("Median of Paper Brand B:\n")
+median(pap1$B)
+
+cat("IQR of Paper Brand A:\n")
+IQR(pap1$A)
+cat("IQR of Paper Brand B:\n")
+IQR(pap1$B)
+
+cat("5th, 10th, 25th, 75th, 90th, 95th Percentiles of Paper Brand A:\n")
+quantile(pap1$A, c(0.05, 0.10, 0.25, 0.75, 0.90, 0.95))
+cat("5th, 10th, 25th, 75th, 90th, 95th Percentiles of Paper Brand B:\n")
+quantile(pap1$B, c(0.05, 0.10, 0.25, 0.75, 0.90, 0.95))
+
+t.test(pap1$A)
+
+t.test(pap1$B)
+
+hist(pap2$thickness)
+hist(pap2$thickness, breaks=seq(.05, .2, .1))
+
+min(pap2$thickness)
+max(pap2$thickness)
+
+hist(pap2$thickness, breaks=seq(.05,.2,.05))
+
+boxplot(pap1$A)
+boxplot(pap1$B)
+
+boxplot(pap1$A, pap1$B, names = c("Paper A", "Paper B"))
+
+nusers <- c(scan( ))
+17.2  22.1  18.5  17.2  18.6  14.8  21.7  15.8  16.3  22.8
+24.1  13.3  16.2  17.5  19.0  23.9  14.8  22.2  21.7  20.7
+13.5  15.8  13.1  16.1  21.9  23.9  19.3  12.0  19.9  19.4
+15.4  16.7  19.5  16.2  16.9  17.1  20.2  13.4  19.8  17.7
+19.7  18.7  17.6  15.9  15.2  17.1  15.0  18.8  21.6  11.9
+
+print(nusers)
+
+qqnorm(nusers)
+
+print(qqnorm(nusers))
+
+cat("Mean of nusers :\n")
+mean(nusers)
+
+cat("Standard deviation of nusers: \n")
+sd(nusers)
+
+t.test(nusers, y=NULL, mu = 17.2)
+
+
+pap1clean <- read.table("C:/DataSets/paper1-cleaned.txt", header = T)
+print(pap1clean)
+
+pap2clean <- read.table("c:/DataSets/paper2-cleaned.txt", header = T)
+print(pap2clean)
+
+thickAClean <- c(pap1clean$A)
+print(thickAClean)
+
+thickBClean <-c(pap1clean$B)
+print(thickBClean)
+
+qqnorm(thickAClean, main = "Normal Plot of Thickness of Paper A")
+qqline(thickAClean)
+
+qqnorm(thickBClean, main = "Normal Plot of Thickness of Paper B")
+qqline(thickBClean)
+
+# Paired-sample t-test
+cat("\nPaired-sample t-test output:")
+t.test(thickAClean, thickBClean, alternative="two.sided", 
+   paired=TRUE, conf.level=0.95)
+
+cat("\nIndependent 2-sample t-test output:\n")
+t.test(bp1$Standing, bp1$Supine, alternative="two.sided", 
+   paired=FALSE, conf.level=0.95)
