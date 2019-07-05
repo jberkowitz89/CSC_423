@@ -1,0 +1,143 @@
+#Reading in flour data into R
+flour <- read.table("c:/DataSets/flour.txt", header=T)
+print(flour)
+
+#Create Weight and NBags variables
+Weight <- flour$Weight
+NBags <- flour$NBags
+print(Weight)
+print(NBags)
+
+#Create R Dataframe
+flourFrame <- data.frame(Weight=Weight, NBags=NBags)
+
+#mean of Weight and NBags
+cat("Mean of Weight: \n")
+mean(Weight)
+cat("Mean of NBags: \n")
+mean(NBags)
+
+#Standard Deviation of Weight and NBags
+cat("Standard Deviation of Weight: \n")
+sd(Weight)
+cat("Standard Deviation of NBags: \n")
+sd(NBags)
+
+#Correlation between Weight and NBags
+cat("Correlation between Weight and NBags :\n")
+cor(Weight, NBags)
+
+#Create Simple Regression Model in R
+regmodel <- lm(NBags ~ Weight, data=flourFrame)
+print(summary(regmodel))
+
+#Get rid of scientific notation
+options("scipen"=999)
+
+#Create Residual Plot of the Simple Linear Regression Model
+r = residuals(regmodel)
+p = fitted(regmodel)
+plot(p, r, main="Residual Plot for the Flour Dataset",
+	     xlab="Predicted Values",
+           ylab="Residuals")
+
+#Create Normal Plot of the residuals
+qqnorm(r, main="Normal Plot of Residuals for Flour Dataset")
+qqline(r)
+
+#Create Regression through the Origin Model
+noint_model <- lm(NBags ~ Weight + 0, data = flourFrame)
+print(summary(noint_model))
+
+#Create Residual Plot of Regression thru the origin
+r2 <- residuals(noint_model)
+p2 <- fitted(noint_model)
+plot(p2, r2, main="Residual Plot of the Regression thru origin of Flour Dataset",
+	     xlab="Predicted Values",
+	     ylab="Residuals")
+
+#Create Normal Plot of residuals of Regression thru origin
+qqnorm(r2, main="Normal Plot of Residuals of Regression thru origin of Flour dataset")
+qqline(r2)
+
+#Read in malibu data
+usedCars <- read.table("c:/DataSets/UsedCars.txt", header = T)
+
+#create data frame
+usedCarsFrame <- data.frame(year=usedCars$Year, miles=usedCars$Miles, price=usedCars$Price)
+print(usedCarsFrame)
+year <- usedCarsFrame$year
+miles <- usedCarsFrame$miles
+price <- usedCarsFrame$price
+
+#Scatter plot of year-miles
+plot(year, miles, main="Scatter Plot of Year-Miles")
+#Scatter plot of year-price
+plot(year, price, main="Scatter Plot of Year-Price")
+#Scatter plot of miles-price
+plot(miles, price, main="Scatter Plot of Miles-Price")
+
+#Correlation between year-miles
+cat("Correlation between year and miles: \n")
+cor(year, miles)
+#Correlation between year-price
+cat("Correlation between year and price: \n")
+cor(year, price)
+#Correlation between miles-price
+cat("Correlation between miles and price: \n")
+cor(miles, price)
+
+#Simple linear regression of year and price
+priceYrModel <- lm(price ~ year, data = usedCarsFrame)
+print(summary(priceYrModel))
+
+#Create residual plot of price-year model
+r <- residuals(priceYrModel)
+p <- fitted(priceYrModel)
+plot(p, r, main="Residual Plot of Price-Year",
+	     xlab="Predicted Values",
+           ylab="Residuals")
+
+#Create normal plot of the residuals of price-year model
+qqnorm(r, main = "Normal Plot of residuals of Price-Year")
+qqline(r)
+
+#Simple linear regression of price-miles
+priceMilesModel <- lm(price ~ miles, data = usedCarsFrame)
+print(summary(priceMilesModel))
+
+#Residual Plot of price-miles model
+r2 <- residuals(priceMilesModel)
+p2 <- fitted(priceMilesModel)
+plot(p2, r2, main="Residual Plot of Price-Miles",
+	     xlab="Predicted Values",
+	     ylab="Residuals")
+
+#Normal plot of price-miles model
+qqnorm(r2, main ="Normal Plot of residuals of Price-Model")
+qqline(r2)
+
+#Multiple Regression Model of price-years, miles
+multiModel <- lm(price ~ year + miles, data = usedCarsFrame)
+print(summary(multiModel))
+
+#Find Residuals vs Predicted Values of Multiple regression Model
+r3 <- residuals(multiModel)
+p3 <- fitted(multiModel)
+plot(p3, r3, main="Residual Plot of Price - Years Miles Model",
+	       xlab="Predicted Values",
+		 ylab="Residuals")
+		 
+#Find Residuals vs year
+plot(year, r3, main="Residual Plot of Residuals vs Year",
+		   xlab="Year",
+		   ylab="Residuals")
+		   
+#Find Residuals vs miles
+plot(miles, r3, main="Residual Plot of Residuals vs Miles",
+		   xlab="Miles",
+		   ylab="Residuals")
+
+#Normal Plot of Multiple regression Model
+qqnorm(r3, main="Normal Plot of residuals of Price - Years Miles Model")
+qqline(r3)

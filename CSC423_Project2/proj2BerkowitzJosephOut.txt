@@ -1,0 +1,275 @@
+> #Reading in flour data into R
+> flour <- read.table("c:/DataSets/flour.txt", header=T)
+> print(flour)
+   Weight NBags
+1    5050   100
+2   10249   205
+3   20000   450
+4    7420   150
+5   24685   500
+6   10206   200
+7    7325   150
+8    4958   100
+9    7162   150
+10  24000   500
+11   4900   100
+12  14501   300
+13  28000   600
+14  17002   400
+15  16100   400
+> 
+> #Create Weight and NBags variables
+> Weight <- flour$Weight
+> NBags <- flour$NBags
+> print(Weight)
+ [1]  5050 10249 20000  7420 24685 10206  7325  4958  7162 24000  4900 14501
+[13] 28000 17002 16100
+> print(NBags)
+ [1] 100 205 450 150 500 200 150 100 150 500 100 300 600 400 400
+ 
+ 
+> #mean of Weight and NBags
+> cat("Mean of Weight: \n")
+Mean of Weight: 
+> mean(Weight)
+[1] 13437.2
+> cat("Mean of NBags: \n")
+Mean of NBags: 
+> mean(NBags)
+[1] 287
+> 
+> #Standard Deviation of Weight and NBags
+> cat("Standard Deviation of Weight: \n")
+Standard Deviation of Weight: 
+> sd(Weight)
+[1] 7850.551
+> cat("Standard Deviation of NBags: \n")
+Standard Deviation of NBags: 
+> sd(NBags)
+[1] 172.4798
+> 
+> #Correlation between Weight and NBags
+> cat("Correlation between Weight and NBags :\n")
+Correlation between Weight and NBags :
+> cor(Weight, NBags)
+[1] 0.9920181
+
+> regmodel <- lm(NBags ~ Weight, data=flourFrame)
+> print(summary(regmodel))
+
+Call:
+lm(formula = NBags ~ Weight, data = flourFrame)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-32.146 -11.349  -4.201  -0.582  54.964 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -5.8643573 11.8557460  -0.495    0.629    
+Weight       0.0217950  0.0007684  28.366 4.45e-13 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 22.57 on 13 degrees of freedom
+Multiple R-squared:  0.9841,    Adjusted R-squared:  0.9829 
+F-statistic: 804.6 on 1 and 13 DF,  p-value: 4.454e-13
+
+> r = residuals(regmodel)
+> p = fitted(regmodel)
+> plot(p, r, main="Residual Plot for the Flour Dataset",
++      xlab="Predicted Values",
++      ylab="Residuals")
+> plot(p, r, main="Residual Plot for the Flour Dataset",xlab="Predicted Values",ylab="Residuals")
+> r <- residuals(regmodel)
+> p <- fitted(regmodel)
+> plot(p, r, main="Residual Plot for the Flour Dataset",
++      xlab="Predicted Values",
++            ylab="Residuals")
+> r = residuals(regmodel)
+> p = fitted(regmodel)
+> plot(p, r, main="Residual Plot for the Flour Dataset",
++      xlab="Predicted Values",
++            ylab="Residuals")
+> qqnorm(r, main="Normal Plot of Residuals for Flour Dataset")
+> qqline(r)
+> noint_model <- lm(NBags ~ Weight + 0, data = flourFrame)
+> print(summary(noint_model))
+
+Call:
+lm(formula = NBags ~ Weight + 0, data = flourFrame)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-29.840 -13.118  -7.224  -2.360  54.429
+
+Coefficients:
+        Estimate Std. Error t value Pr(>|t|)    
+Weight 0.0214641  0.0003673   58.43   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 21.95 on 14 degrees of freedom
+Multiple R-squared:  0.9959,    Adjusted R-squared:  0.9956 
+F-statistic:  3414 on 1 and 14 DF,  p-value: < 2.2e-16
+
+
+> r <- residuals(regmodel)
+> p <- fitted(regmodel)
+> plot(p, r, main="Residual Plot for the Flour Dataset",
++      xlab="Predicted Values",
++            ylab="Residuals")
+> r2 <- residuals(noint_model)
+> p2 <- fitted(noint_model)
+> plot(p2, r2, main="Residual Plot of the Regression thru origin of Flour Dataset",
++      xlab="Predicted Values",
++      ylab="Residuals")
+> qqnorm(r2, main="Normal Plot of Residuals of Regression thru origin of Flour dataset")
+> qqline(r2)
+
+> usedCars <- read.table("c:/DataSets/UsedCars.txt", header = T)
+> usedCarsFrame <- data.frame(year=usedCars$Year, miles=usedCars$Miles, price=usedCars$Price)
+> print(usedCarsFrame)
+   year  miles price
+1  2013  34962 17990
+2  2013  16249 16995
+3  2012  36938 16295
+4  2013  16174 15995
+5  2011  41529 13995
+6  2012  66088 13975
+7  2013  43781 13972
+8  2012  66309 12995
+9  2013  53823 12994
+10 2010  20658 12500
+11 2011  60660 11995
+12 2011  45920 11988
+13 2012  36145 11646
+14 2010  28800 11900
+15 2011  63474 10995
+16 2010  32245 10991
+17 2012 113547 10990
+18 2011  70406 10988
+19 2011  74814  9995
+20 2010  73335  9499
+21 2013  46989 15988
+22 2012  21907 15795
+
+> year <- usedCarsFrame$year
+> miles <- usedCarsFrame$miles
+> price <- usedCarsFrame$price
+> plot(year, miles, main="Scatter Plot of Year-Miles")
+> plot(year, price, main="Scatter Plot of Year-Price")
+> plot(miles, price, main="Scatter Plot of Year-Price")
+
+> cat("Correlation between year and miles: \n")
+Correlation between year and miles: 
+> cor(year, miles)
+[1] -0.1243684
+> cat("Correlation between year and price: \n")
+Correlation between year and price: 
+> cor(year, price)
+[1] 0.7193466
+> cat("Correlation between miles and price: \n")
+Correlation between miles and price: 
+> cor(miles, price)
+[1] -0.5823739
+
+> priceYrModel <- lm(price ~ year, data = usedCarsFrame)
+> print(summary(priceYrModel))
+
+Call:
+lm(formula = price ~ year, data = usedCarsFrame)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2790.64 -1203.63    -2.01  1543.80  2622.11 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -3179773.7   689460.8  -4.612 0.000169 ***
+year            1587.3      342.7   4.631 0.000161 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1717 on 20 degrees of freedom
+Multiple R-squared:  0.5175,    Adjusted R-squared:  0.4933 
+F-statistic: 21.45 on 1 and 20 DF,  p-value: 0.0001612
+
+> r <- residuals(priceYrModel)
+> p <- fitted(priceYrModel)
+> plot(p, r, main="Residual Plot of Price-Year",
++      xlab="Predicted Values",
++            ylab="Residuals")
+
+> qqnorm(r, main = "Normal Plot of residuals of Price-Year")
+> qqline(r)
+
+> priceMilesModel <- lm(price ~ miles, data = usedCarsFrame)
+> print(summary(priceMilesModel))
+
+Call:
+lm(formula = price ~ miles, data = usedCarsFrame)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3168.9 -1573.7   248.3  1489.0  3990.9 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  1.607e+04  9.918e+02  16.202 5.76e-13 ***
+miles       -5.922e-02  1.848e-02  -3.204  0.00446 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2009 on 20 degrees of freedom
+Multiple R-squared:  0.3392,    Adjusted R-squared:  0.3061 
+F-statistic: 10.26 on 1 and 20 DF,  p-value: 0.004457
+
+> r2 <- residuals(priceMilesModel)
+> p2 <- fitted(priceMilesModel)
+> plot(p2, r2, main="Residual Plot of Price-Miles",
++      xlab="Predicted Values",
++      ylab="Residuals")
+
+> qqnorm(r2, main ="Normal Plot of residuals of Price-Model")
+> qqline(r2)
+
+> multiModel <- lm(price ~ year + miles, data = usedCarsFrame)
+> print(summary(multiModel))
+
+Call:
+lm(formula = price ~ year + miles, data = usedCarsFrame)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2708.4  -626.3   123.8   680.8  2125.5 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -2.901e+06  4.984e+05  -5.821 1.32e-05 ***
+year         1.450e+03  2.477e+02   5.853 1.23e-05 ***
+miles       -5.091e-02  1.142e-02  -4.460 0.000269 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1231 on 19 degrees of freedom
+Multiple R-squared:  0.7642,    Adjusted R-squared:  0.7394 
+F-statistic: 30.79 on 2 and 19 DF,  p-value: 1.093e-06
+
+> r3 <- residuals(multiModel)
+> p3 <- fitted(multiModel)
+> plot(p3, r3, main="Residual Plot of Price - Years Miles Model",
++        xlab="Predicted Values",
++  ylab="Residuals")
+
+> plot(year, r3, main="Residual Plot of Residuals vs Year",
++    xlab="Year",
++    ylab="Residuals")
+
+> plot(miles, r3, main="Residual Plot of Residuals vs Miles",
++    xlab="Miles",
++    ylab="Residuals")
+
+> qqnorm(r3, main="Normal Plot of residuals of Price - Years Miles Model")
+> qqline(r3)
+
