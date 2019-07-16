@@ -1,0 +1,178 @@
+#setwd("/Users/bashrw/grad/cs423/projects/final_project")
+library(leaps)
+library(MASS)
+
+nba <- read.csv('finalNBA.csv', header = T, na.strings="")
+
+nba_cleaned <- na.omit(nba)
+
+model_v1 <- lm(WS ~ Age + Tm + G + GS + MP + FG + FGA + TwoP + TwoPA + ThreeP + ThreePA + FT + FTA + ORB + DRB + TRB + AST + STL + BLK + TOV + PF + PTS + FGPercent + TwoPPercent + ThreePPercent + eFGPercent + FTPercent + TSPercent + G + GS + MP + PER + ThreePAr + FTr + ORBPercent + DRBPercent + TRBPercent + ASTPercent + STLPercent + BLKPercent + TOVPercent + USGPercent + ORtg + DRtg, data=nba_cleaned)
+summary(model_v1)
+
+step1 <- stepAIC(model_v1, direction='both')
+step1$anova 
+r <- residuals(model_v1)
+p <- fitted(model_v1)
+
+plot(p, r)
+qqnorm(r)
+qqline(r)
+
+summary(influence.measures(model_v1))
+summary(model_v1)
+
+# new model from Joey
+new_model <- lm(WS ~ Age + G + GS + MP + FGA + TwoP + TwoPA + FT + FTA + DRB + 
+                  TRB + AST + STL + BLK + TOV + PF + PTS + FGPercent + 
+                  TwoPPercent + TSPercent + PER + ORBPercent + DRBPercent + 
+                  TRBPercent + ASTPercent + STLPercent + TOVPercent + 
+                  USGPercent + ORtg + DRtg, data=nba_cleaned)
+summary(new_model)
+
+#StepAIC on newmodel
+step2 <- stepAIC(new_model, direction=c('backward'))
+step2$anova
+# ReducedNewModel
+reduced_new_model <- lm(WS ~ G + GS + MP + FGA + TwoP + TwoPA + 
+                          FT + FTA + DRB + TRB + AST + STL + BLK + TOV + PF + 
+                          PTS + FGPercent + TwoPPercent + TSPercent + PER + 
+                          ORBPercent + DRBPercent + TRBPercent + ASTPercent + 
+                          STLPercent + TOVPercent + USGPercent + ORtg + DRtg, 
+                        data=nba_cleaned)
+
+summary(reduced_new_model)
+library(car)
+vif(reduced_new_model)
+
+#Removing MP, FGA, PER, PTS based on high vif Coefficients
+reduced_new_model_2 <- lm(WS ~ G + GS + FTA + TRB + AST + STL + BLK + TOV + PF + USGPercent + ORtg + DRtg, data=nba_cleaned)
+summary(reduced_new_model_2)
+vif(reduced_new_model_2)
+#Removing TOV and TRB, based on low P-value and high VIF, respectively
+reduced_new_model_3 <- lm(WS ~ G + GS + FTA + AST + STL + BLK + PF + USGPercent + ORtg + DRtg, data=nba_cleaned)
+summary(reduced_new_model_3)
+vif(reduced_new_model_3)
+#Removing USGPercent and STL Based on insignificant p-value
+reduced_new_model_4 <- lm(WS ~ G + GS + FTA + AST + BLK + PF + ORtg + DRtg, data=nba_cleaned)
+summary(reduced_new_model_4)
+vif(reduced_new_model_4)
+r3 <- residuals(reduced_new_model_4)
+p3 <- fitted(reduced_new_model_4)
+
+plot(p3, r3, main="Predicted vs. Residuals of Best Model")
+plot(nba_cleaned$G, r3, main="Games Played vs Residuals of Best Model")
+plot(nba_cleaned$GS, r3, main="Games Started vs Residuals of Best Model")
+plot(nba_cleaned$FTA, r3, main="Free Throw Attempts per game vs Residuals of Best Model")
+plot(nba_cleaned$AST, r3, main="Assists Per Game vs Residuals of Best Model")
+plot(nba_cleaned$BLK, r3, main="Blocks Per Game vs Residuals of Best Model")
+plot(nba_cleaned$PF, r3, main="Personal Fouls per Game vs Residuals of Best Model")
+plot(nba_cleaned$ORtg, r3, main="Offensive Rating vs Residuals of Best Model")
+plot(nba_cleaned$DRtg, r3, main="Defensive Rating vs Residuals of Best Model")
+
+vif(new_model)
+
+
+
+qqnorm(r3, main="Residuals of Best Model")
+qqline(r3)
+
+confint(reduced_new_model_4)
+
+summary(influence.measures(reduced_new_model_4))
+
+predict(reduced_new_model_4, interval="predict")
+
+first_reduced_model <- lm(WS ~ G + MP + FG + TwoPA + ThreePA + FTA + DRB + TRB + AST + STL + TOV + PF + PTS + FGPercent + TwoPPercent + ThreePPercent + eFGPercent + FTPercent + PER + ThreePAr + FTr + ORBPercent + DRBPercent + TRBPercent + ASTPercent + STLPercent + USGPercent + ORtg + DRtg + OBPM + BPM + VORP, data=nba_cleaned)
+summary(first_reduced_model)
+
+# Based on summary, we eliminate those independent variables with high p-values
+
+second_reduced_model <- lm(WS ~ G + MP + FG + TwoPA + ThreePA + FTA + DRB + TRB + AST + STL + TOV + PTS + FGPercent + TwoPPercent + eFGPercent + PER + ThreePAr + ASTPercent + STLPercent + ORtg + DRtg + OBPM + BPM + VORP, data=nba_cleaned)
+summary(second_reduced_model)
+
+# Based on summary, we eliminate further independent variables with high p-values to increase parsimony
+third_reduced_model <- lm(WS ~ G + MP + FG + TwoPA + ThreePA + FTA + DRB + TRB + AST + STL + TOV + PTS + FGPercent + TwoPPercent + eFGPercent + ThreePAr + STLPercent + ORtg + DRtg + OBPM + BPM + VORP, data=nba_cleaned)
+summary(third_reduced_model)
+
+# Do one more AIC stepwise function on our third reduced model
+step <- stepAIC(third_reduced_model, direction='both')
+step$anova
+
+# AIC stepwise function confirms our model is ideal (according to AIC statistic)
+
+r <- residuals(third_reduced_model)
+p <- fitted(third_reduced_model)
+
+plot(p, r, main="Predicted vs. Residuals of Best Model")
+
+qqnorm(r, main="Residuals of Best Model")
+qqline(r)
+
+summary(influence.measures(third_reduced_model))
+# we have about thirty influence points
+
+# Check for multicollinarity
+vif(third_reduced_model)
+
+# we need to adjust the model based on the multicollinarity
+# Eliminate the highest VIF variables
+
+# We remove the two biggest VIF independent variables: PTS and FG
+model1 <- lm(WS ~ G + MP + TwoPA + ThreePA + FTA + DRB + TRB + AST + STL + TOV + FGPercent + TwoPPercent + eFGPercent + ThreePAr + STLPercent + ORtg + DRtg + OBPM + BPM + VORP, data=nba_cleaned)
+
+summary(model1)
+
+vif(model1)
+
+# This helps to reduce overall multicollinarity, but we still have a very high VIF value for FGPercent (remove FTPercent)
+model2 <- lm(WS ~ G + MP + TwoPA + ThreePA + FTA + DRB + TRB + AST + STL + TOV + TwoPPercent + eFGPercent + ThreePAr + STLPercent + ORtg + DRtg + OBPM + BPM + VORP, data=nba_cleaned)
+
+summary(model2)
+
+vif(model2)
+
+# This further helps, but now we see a high collinarity between DRB and TRB, so we remove TRB
+model3 <- lm(WS ~ G + MP + TwoPA + ThreePA + FTA + DRB + AST + STL + TOV + TwoPPercent + eFGPercent + ThreePAr + STLPercent + ORtg + DRtg + OBPM + BPM + VORP, data=nba_cleaned)
+
+summary(model3)
+
+vif(model3)
+
+# DRB went down, but OBPM and BPM have high collinarity (remove OBPM)
+model4 <- lm(WS ~ G + MP + TwoPA + ThreePA + FTA + DRB + AST + STL + TOV + TwoPPercent + eFGPercent + ThreePAr + STLPercent + ORtg + DRtg + BPM + VORP, data=nba_cleaned)
+
+summary(model4)
+
+vif(model4)
+
+# Based on p-values of model 4, we remove several ind. variables whose p-values are not too high to be statistically significant
+model5 <- lm(WS ~ G + MP + TwoPA + FTA + AST + STL + TOV + eFGPercent + STLPercent + ORtg + DRtg + BPM + VORP, data=nba_cleaned)
+
+summary(model5)
+
+vif(model5)
+
+# Remove all VIF ind. variables with VIF values greater than 6
+model6 <- lm(WS ~ G + TwoPA + AST + eFGPercent + DRtg + VORP, data=nba_cleaned)
+
+summary(model6)
+
+vif(model6)
+
+# Defensive rating is no longer significant
+model7 <- lm(WS ~ G + TwoPA + eFGPercent + VORP + STL + TOV, data=nba_cleaned)
+
+summary(model7)
+
+vif(model7)
+
+r7 <- residuals(model7)
+p7 <- fitted(model7)
+
+plot(p7, r7, main="Residuals vs Predicted for Model 7")
+qqnorm(r7, main="Normal plot for Model 7")
+qqline(r7)
+
+confint(model7)
+
+summary(influence.measures(model7))
